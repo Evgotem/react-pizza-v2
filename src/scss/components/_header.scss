@@ -3,6 +3,7 @@
 .header {
   border-bottom: 1px solid $gray-line;
   padding: 40px 0;
+  margin-bottom: 20px;
 
   .container {
     display: flex;
@@ -20,6 +21,7 @@
 
   &__logo {
     display: flex;
+    cursor: pointer;
 
     img {
       margin-right: 15px;
