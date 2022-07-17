@@ -1,0 +1,40 @@
+.root {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 12px 45px;
+  width: 400px;
+  border-radius: 10px;
+  font-size: 16px;
+
+  &:focus {
+    border: 1px solid #fe5f1e;
+  }
+}
+
+.wrapper {
+  position: relative;
+}
+
+.iconSearch {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.clearIcon {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  display: block;
+  padding: 0px 8px;
+  border-radius: 8px;
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    border: 1px solid #fe5f1e;
+    color: #b93906;
+    transition: all 0.2s ease-in-out;
+  }
+}
