@@ -1,4 +1,5 @@
 import React from 'react';
+import { SearchContext } from '../App';
 
 import Categories from '../components/Categories';
 import { Pagination } from '../components/Pagination';
@@ -6,7 +7,9 @@ import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Sort from '../components/Sort';
 
-export const Home = ({ searchValue }) => {
+export const Home = () => {
+  const { searchValue } = React.useContext(SearchContext);
+
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
@@ -14,11 +17,11 @@ export const Home = ({ searchValue }) => {
   const [categoryId, setCategoryId] = React.useState(0);
   const [sortType, setSortType] = React.useState({ name: 'Популярности', sortProperty: 'rating' });
 
-  const skeletons = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
+  const skeletons = [...new Array(4)].map((_, index) => <Skeleton key={index} />);
   const pizzas = items
     .filter((obj) => obj.title.toLowerCase().includes(searchValue.toLowerCase()))
     .map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
-
+  
   React.useEffect(() => {
     setIsLoading(true);
 

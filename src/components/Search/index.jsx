@@ -1,7 +1,9 @@
 import React from 'react';
+import { SearchContext } from '../../App';
 import s from './Search.module.scss';
 
-export const Search = ({ searchValue, setSearchValue }) => {
+export const Search = () => {
+  const { searchValue, setSearchValue } = React.useContext(SearchContext);
   return (
     <div className={s.wrapper}>
       <span className={s.iconSearch}>&#128269;</span>

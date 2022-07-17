@@ -1,15 +1,18 @@
 import React from 'react';
 
 import { Outlet, Link } from 'react-router-dom';
+import { SearchContext } from '../App';
 import logoSVG from '../assets/img/pizza-logo.svg';
 import { Search } from './Search';
 
-function Header({searchValue, setSearchValue }) {
+function Header() {
+  const { searchValue, setSearchValue } = React.useContext(SearchContext);
+  
   return (
     <>
       <div className="header">
         <div className="container">
-          <Link to='/'>
+          <Link to="/">
             <div className="header__logo">
               <img width="38" src={logoSVG} alt="Pizza logo" />
               <div>
