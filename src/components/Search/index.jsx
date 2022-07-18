@@ -6,7 +6,7 @@ export const Search = () => {
   const { searchValue, setSearchValue } = React.useContext(SearchContext);
   return (
     <div className={s.wrapper}>
-      <span className={s.iconSearch}>&#128269;</span>
+      <span className={s.iconSearch} />
       <input
         value={searchValue}
         onChange={(event) => setSearchValue(event.target.value)}

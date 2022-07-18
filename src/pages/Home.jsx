@@ -40,7 +40,6 @@ export const Home = () => {
         setIsLoading(false);
       });
 
-    console.log(categoryId, sortType);
   }, [categoryId, sortType, searchValue, currentPage]);
   
   return (
