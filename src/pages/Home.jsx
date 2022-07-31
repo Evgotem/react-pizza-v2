@@ -1,8 +1,9 @@
 import React from 'react';
 import { SearchContext } from '../App';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 
-import { setCategoryId, setSortType } from '../redux/slices/filtersSlice';
+import { setCategoryId, setSortType, setPageCount } from '../redux/slices/filtersSlice';
 
 import Categories from '../components/Categories';
 import { Pagination } from '../components/Pagination';
@@ -13,14 +14,12 @@ import Sort from '../components/Sort';
 export const Home = () => {
   const dispatch = useDispatch();
 
-  const { categoryId, sortType } = useSelector((state) => state.filters);
+  const { categoryId, sortType, pageCount } = useSelector((state) => state.filters);
 
   const { searchValue } = React.useContext(SearchContext);
 
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-
-  const [currentPage, setCurrentPage] = React.useState(1);
 
   const onChangeCategory = (id) => {
     dispatch(setCategoryId(id));
@@ -42,17 +41,19 @@ export const Home = () => {
     const sortBy = sortType.sortProperty.replace('-', '');
     const order = sortType.sortProperty.includes('-') ? 'asc' : 'desc';
     const search = searchValue ? `&search=${searchValue}` : '';
-    fetch(
-      `https://60e0b5b96b689e001788cb8e.mockapi.io/pizzas?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`,
-    )
-      .then((res) => {
-        return res.json();
-      })
-      .then((json) => {
-        setItems(json);
+    axios
+      .get(
+        `https://60e0b5b96b689e001788cb8e.mockapi.io/pizzas?page=${pageCount}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
+      )
+      .then((response) =>  {
+        setItems(response.data);
         setIsLoading(false);
       });
-  }, [categoryId, sortType, searchValue, currentPage]);
+  }, [categoryId, sortType, searchValue, pageCount]);
+
+  const onChangePage = (number) => {
+    dispatch(setPageCount(number))
+  }
 
   return (
     <>
@@ -71,7 +72,7 @@ export const Home = () => {
         )}
       </div>
 
-      <Pagination onChangePage={(number) => setCurrentPage(number)} />
+      <Pagination pageCount={pageCount} onChangePage={(number) => onChangePage(number)} />
     </>
   );
 };
