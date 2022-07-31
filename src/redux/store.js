@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
-import filterSlice from './slices/filterSlice'
+import filtersSlice from './slices/filtersSlice'
 
 export const store = configureStore({
-  reducer: {filter: filterSlice},
+  reducer: {filters: filtersSlice},
 })

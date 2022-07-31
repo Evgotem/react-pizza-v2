@@ -1,5 +1,8 @@
 import React from 'react';
 import { SearchContext } from '../App';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { setCategoryId, setSortType } from '../redux/slices/filtersSlice';
 
 import Categories from '../components/Categories';
 import { Pagination } from '../components/Pagination';
@@ -8,20 +11,30 @@ import Skeleton from '../components/PizzaBlock/Skeleton';
 import Sort from '../components/Sort';
 
 export const Home = () => {
+  const dispatch = useDispatch();
+
+  const { categoryId, sortType } = useSelector((state) => state.filters);
+
   const { searchValue } = React.useContext(SearchContext);
 
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
   const [currentPage, setCurrentPage] = React.useState(1);
-  const [categoryId, setCategoryId] = React.useState(0);
-  const [sortType, setSortType] = React.useState({ name: 'Популярности', sortProperty: 'rating' });
+
+  const onChangeCategory = (id) => {
+    dispatch(setCategoryId(id));
+  };
+  const onChangeSortType = (sortObj) => {
+    dispatch(setSortType(sortObj));
+  };
 
   const skeletons = [...new Array(4)].map((_, index) => <Skeleton key={index} />);
+
   const pizzas = items
     .filter((obj) => obj.title.toLowerCase().includes(searchValue.toLowerCase()))
     .map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
-  
+
   React.useEffect(() => {
     setIsLoading(true);
 
@@ -39,14 +52,13 @@ export const Home = () => {
         setItems(json);
         setIsLoading(false);
       });
-
   }, [categoryId, sortType, searchValue, currentPage]);
-  
+
   return (
     <>
       <div className="content__top">
-        <Categories categoryId={categoryId} setCategoryId={setCategoryId} />
-        <Sort sortType={sortType} setSortType={setSortType} />
+        <Categories categoryId={categoryId} setCategoryId={onChangeCategory} />
+        <Sort sortType={sortType} setSortType={onChangeSortType} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
